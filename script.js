@@ -87,3 +87,10 @@ getCountryAndNeighbour(`portugal`);
 // request.send();
 
 const request=fetch('https://restcountries.com/v2/name/portugal');
+
+const getCountryData = function(country){
+    fetch(`https://restcountries.com/v2/name/${country}`)
+    .then((response)=> response.json())
+    .then((data)=>renderCountry(data[0]));
+}
+getCountryData('portugal');
