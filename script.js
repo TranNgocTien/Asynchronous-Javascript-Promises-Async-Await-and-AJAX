@@ -432,3 +432,12 @@ const getPosition = function () {
   whereAmI();
   whereAmI();
   console.log('FIRST');
+
+
+  try{
+      let y= 1;
+      const x=2;
+      x=3; 
+  }catch(err){
+      alert(err.message);
+  }
