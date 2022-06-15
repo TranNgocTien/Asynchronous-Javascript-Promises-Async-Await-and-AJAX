@@ -455,3 +455,22 @@ const getPosition = function () {
 //   }catch(err){
 //       alert(err.message);
 //   }
+let allGood=true;
+let fetchSomeData= new Promise((resolve,reject)=>{
+    if(!allGood){
+        reject("Error fetching data");
+    }else{
+        resolve({
+            id:1,
+            message:'nice work!',
+        });
+    }
+})
+
+//consuming a promises
+
+fetchSomeData.then(fetchedData=>{
+    console.log('then:',fetchedData)
+}).catch(err=>{
+    console.error('error',err);
+})
