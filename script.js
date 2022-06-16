@@ -455,22 +455,81 @@ const getPosition = function () {
 //   }catch(err){
 //       alert(err.message);
 //   }
-let allGood=true;
-let fetchSomeData= new Promise((resolve,reject)=>{
-    if(!allGood){
-        reject("Error fetching data");
-    }else{
-        resolve({
-            id:1,
-            message:'nice work!',
-        });
-    }
+// let allGood=true;
+// let fetchSomeData= new Promise((resolve,reject)=>{
+//     if(!allGood){
+//         reject("Error fetching data");
+//     }else{
+//         resolve({
+//             id:1,
+//             message:'nice work!',
+//         });
+//     }
+// })
+
+// //consuming a promises
+
+// fetchSomeData.then(fetchedData=>{
+//     console.log('then:',fetchedData)
+// }).catch(err=>{
+//     console.error('error',err);
+// })
+
+
+//Simulate fetching some data
+let fetchData= function(data){
+    return new Promise((resolve,reject)=>{
+        setTimeOut(()=>{
+            console.log('Fetching Data Complete');
+            resolve({id:1, message:'Nice work'});
+        },2000);
+    });
+};
+
+let parseData=function(data){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            let parseOutput=`Parse the data for id:${data.id} with message: ${data.message}`;
+            resolve({parsed:parseOutput});
+        },2000)
+    })
+}
+//Echo data
+
+let echoData= function(data){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            console.log(data.parsed);
+        },2000);
+    });
+};
+
+//Chaining the promises
+fetchData().then(parseData).then(echoData).catch(err=>{
+    console.log(err);
+});
+
+const p1 = new Promise((resolve,reject)=>{
+    setTimeout(resolve,3000,'Hello');
+});
+
+const p2 = new Promise((resolve,reject)=>{
+    setTimeout(resolve,2000,'World');
 })
 
-//consuming a promises
+const p3 = 1000;
 
-fetchSomeData.then(fetchedData=>{
-    console.log('then:',fetchedData)
-}).catch(err=>{
-    console.error('error',err);
-})
+Promise.all([p1,p2,p3]).then((result)=>{
+    console.log(result);
+}).catch(err=> new Error('Promise.all rejection!',err));
+
+
+//Promise.race()
+//Returns a promise that fulfilled or rejects as soon as one of the Promises in an
+// iterable fulfills or rejects, with the value or reason from that promise.
+
+Promise.race([p1,p2,p3]).then((result)=>{
+    console.log(result);
+}).catch((err)=>{
+    console.error('Promise.all rejection!', err)
+});
